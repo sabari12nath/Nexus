@@ -9,12 +9,10 @@ import {
   Users,
   Calendar,
   ScanLine,
-  Stethoscope,
-  FileText,
-  MessageSquare,
-  Bell,
-  Settings
+  FileText
 } from "lucide-react";
+import { AuthProvider } from "../contexts/AuthContext";
+// import Header from "../components/ui/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,48 +39,57 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 flex h-screen`}
       >
-        <div className="flex w-full h-full">
-          <Sidebar>
-            <SidebarItem
-              icon={<LayoutDashboard size={20} />}
-              text="Overview"
-              active={true}
-              alert={undefined}
-            />
-            <SidebarItem
-              icon={<Users size={20} />}
-              text="Patients"
-              active={false}
-              alert={undefined}
-            />
-            <SidebarItem
-              icon={<Calendar size={20} />}
-              text="Appointments"
-              active={false}
-              alert={undefined}
-            />
-            
-            <SidebarItem
-              icon={<ScanLine size={20} />}
-              text="Scan"
-              active={false}
-              alert={undefined}
-            />
-            <div className="mt-auto">
+        <AuthProvider>
+          <div className="flex w-full h-full">
+            <Sidebar>
               <SidebarItem
-              icon={<FileText size={20} />}
-              text="Prescription"
-              active={false}
-              alert={undefined}
+                icon={<LayoutDashboard size={20} />}
+                text="Overview"
+                href="/"
+                active={true}
+                alert={undefined}
+              />
+              <SidebarItem
+                icon={<Users size={20} />}
+                text="Patients"
+                href="/patients"
+                active={false}
+                alert={undefined}
+              />
+              <SidebarItem
+                icon={<Calendar size={20} />}
+                text="Appointments"
+                href="/appointments"
+                active={false}
+                alert={undefined}
               />
               
-            </div>
-          </Sidebar>
+              <SidebarItem
+                icon={<ScanLine size={20} />}
+                text="Scan"
+                href="/scan"
+                active={false}
+                alert={undefined}
+              />
+              <div className="mt-auto">
+                <SidebarItem
+                icon={<FileText size={20} />}
+                text="Prescription"
+                href="/prescription"
+                active={false}
+                alert={undefined}
+                />
+              </div>
+            </Sidebar>
 
-          <main className="flex-1 overflow-auto">
-            {children}
-          </main>
-        </div>
+            <main className="flex-1 flex flex-col overflow-hidden">
+              {/* <Header /> */}
+              <div className="flex-1 overflow-auto">
+                {children}
+              </div>
+            </main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
